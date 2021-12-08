@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.Json;
 using TodoListApp.Models;
 
 namespace TodoListApp.Services
@@ -9,33 +10,26 @@ namespace TodoListApp.Services
     {
         public void AddTodoItem(TodoItemModel TodoItem)
         {
-            string line = TodoItem.Id + "|" + TodoItem.Name + "|" + TodoItem.Description + "\r\n";
-
-            System.IO.File.AppendAllText("todolist.txt", line);
+            System.IO.File.AppendAllText("todolist.txt", JsonSerializer.Serialize<TodoItemModel>(TodoItem) + "\r\n");
         }
         public List<TodoItemModel> GetAll()
         {
             string[] lines = System.IO.File.ReadAllLines("todolist.txt");
+
             List<TodoItemModel> TodoItemsList = new List<TodoItemModel>();
 
             Array.ForEach(lines, line =>
             {
-                string[] lineValues = line.Split("|");
-                TodoItemsList.Add(new TodoItemModel
-                {
-                    Id = Convert.ToInt32(lineValues[0]),
-                    Name = lineValues[1],
-                    Description = lineValues[2]
-                });
+                TodoItemsList.Add(JsonSerializer.Deserialize<TodoItemModel>(line));
             });
 
             return TodoItemsList;
         }
 
-        public void DeleteTodoItem(string id)
+        public void DeleteTodoItem(int id)
         {
             string[] oldLines = System.IO.File.ReadAllLines("todolist.txt");
-            string[] newLines = oldLines.Where(line => !line.StartsWith(id + "|")).ToArray();
+            string[] newLines = oldLines.Where(line => !line.StartsWith($"{{\"Id\":{id},")).ToArray();
             System.IO.File.WriteAllLines("todolist.txt", newLines);
         }
     }

@@ -39,7 +39,7 @@ namespace TodoListApp.Controllers
             return View();
         }
 
-        public IActionResult DeleteTodoItem(string id)
+        public IActionResult DeleteTodoItem(int id)
         {
             _todoListService.DeleteTodoItem(id);
             return RedirectToAction("TodoItemsList");
