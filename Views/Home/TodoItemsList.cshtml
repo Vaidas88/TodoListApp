@@ -1,0 +1,16 @@
+﻿@model List<TodoItemModel>
+
+<ul class="list-group">
+    @foreach (var item in @Model)
+    {
+        <li class="list-group-item w-50 list-group-item-action flex-column align-items-start">
+            <div class="d-flex w-100 justify-content-between">
+                <h4 class="mb-2">@item.Name</h4>
+            </div>
+                <p class="mb-3">@item.Description</p>
+            <div class="d-flex w-100 justify-content-between">
+                @Html.ActionLink("Delete", "DeleteTodoItem", "Home", new { id = item.Id },  new { @class= "btn btn-primary" })
+            </div>
+        </li>
+    }
+</ul>

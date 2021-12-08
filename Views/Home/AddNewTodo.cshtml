@@ -1,0 +1,16 @@
+﻿@model TodoItemModel
+
+@using (Html.BeginForm("PostNewTodo", "Home", FormMethod.Post))
+{
+    <div class="mb-3 col-5">
+        @Html.LabelFor(todo => todo.Name, new { @class= "form-label" })
+        @Html.TextBoxFor(todo => todo.Name, new { @class= "form-control" })
+    </div>
+    <div class="mb-3 col-5">
+        @Html.LabelFor(todo => todo.Description, new { @class= "form-label" })
+        @Html.TextBoxFor(todo => todo.Description, new { @class= "form-control" })
+    </div>
+    <div class="mb-3 col-5">
+        <input type="submit" class="btn btn-primary" value="Submit" />
+    </div>
+}
